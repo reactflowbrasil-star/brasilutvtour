@@ -126,6 +126,20 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    const removeLovableBadge = () => {
+      document
+        .querySelectorAll("#lovable-badge-cta, #lovable-badge")
+        .forEach((element) => element.remove());
+    };
+
+    removeLovableBadge();
+    const observer = new MutationObserver(removeLovableBadge);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
