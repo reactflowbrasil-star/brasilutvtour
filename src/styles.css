@@ -139,3 +139,7 @@
     text-wrap: pretty;
   }
 }
+
+#lovable-badge {
+  display: none !important;
+}
