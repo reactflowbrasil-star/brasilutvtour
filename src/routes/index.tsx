@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import heroExpedition from "../assets/hero-expedition.jpg";
-import projectUtvDunes from "../assets/project-utv-dunes.jpg";
-import projectUtvValley from "../assets/project-utv-valley.jpg";
-import destPirenopolis from "../assets/dest-pirenopolis.jpg";
-import destJalapao from "../assets/dest-jalapao.jpg";
-import destCamboriu from "../assets/dest-camboriu.jpg";
+import brasilUtvLogo from "../assets/brasil-utv-logo.png";
+import heroExpedition from "../assets/hero-expedition.png";
+import projectUtvDunes from "../assets/project-utv-dunes.png";
+import projectUtvValley from "../assets/project-utv-valley.png";
+import destPirenopolis from "../assets/dest-pirenopolis.png";
+import destJalapao from "../assets/dest-jalapao.png";
+import destCamboriu from "../assets/dest-camboriu.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -50,16 +51,47 @@ const navLinks = [
 
 function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [typedHero, setTypedHero] = useState("");
+
+  useEffect(() => {
+    const phrase = "O Brasil visto por outro caminho.";
+    let index = 0;
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedHero(phrase.slice(0, index));
+      if (index >= phrase.length) window.clearInterval(timer);
+    }, 58);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-brand-dark text-white font-sans selection:bg-brand-gold selection:text-black">
+    <div className="relative min-h-screen overflow-hidden bg-brand-dark text-white font-sans selection:bg-brand-gold selection:text-black">
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.32] mix-blend-screen">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${projectUtvDunes})` }}
+        />
+        <div
+          className="absolute inset-y-0 left-0 w-1/2 bg-cover bg-center bg-no-repeat opacity-70"
+          style={{ backgroundImage: `url(${destPirenopolis})` }}
+        />
+        <div
+          className="absolute inset-y-0 right-0 w-1/2 bg-cover bg-center bg-no-repeat opacity-70"
+          style={{ backgroundImage: `url(${destCamboriu})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/25 via-brand-dark/55 to-brand-dark/80" />
+      </div>
+      <style>{`section { position: relative; z-index: 1; }`}</style>
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-brand-green rounded flex items-center justify-center font-display text-brand-gold italic text-xl">
-              B
-            </div>
+            <img
+              src={brasilUtvLogo}
+              alt="Brasil UTV Tour"
+              className="w-12 h-12 object-contain"
+            />
             <span className="font-display tracking-tighter text-xl uppercase">
               Brasil <span className="text-brand-gold">UTV</span> Tour
             </span>
@@ -143,7 +175,7 @@ function Index() {
           <img
             src={heroExpedition}
             alt="UTV de alta performance em uma trilha dramática ao pôr do sol"
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-contain opacity-60"
             width={1920}
             height={1088}
             fetchPriority="high"
@@ -156,9 +188,9 @@ function Index() {
             <span className="inline-block py-1 px-3 bg-brand-green text-white text-[10px] font-black uppercase tracking-[0.3em] mb-6">
               Projeto Oficial de Patrocínio
             </span>
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tighter mb-8 italic uppercase">
-              O Brasil visto por{" "}
-              <span className="text-brand-gold italic">outro</span> caminho.
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.92] tracking-[-0.055em] mb-8 italic uppercase">
+              {typedHero}
+              <span className="ml-1 inline-block text-brand-gold not-italic animate-pulse">▌</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-white/80 font-light leading-relaxed mb-10 border-l-4 border-brand-gold pl-6">
               Uma plataforma itinerante de experiências que une off-road,
@@ -231,7 +263,7 @@ function Index() {
               <img
                 src={projectUtvDunes}
                 alt="Detalhe de UTV em dunas de areia"
-                className="aspect-[4/5] object-cover bg-brand-gray rounded-lg"
+                className="w-full h-auto object-contain bg-brand-gray rounded-lg"
                 width={800}
                 height={1008}
                 loading="lazy"
@@ -239,7 +271,7 @@ function Index() {
               <img
                 src={projectUtvValley}
                 alt="Caravanas de UTVs atravessando um vale verde no Brasil"
-                className="aspect-[4/5] object-cover bg-brand-gray rounded-lg mt-12"
+                className="w-full h-auto object-contain bg-brand-gray rounded-lg mt-12"
                 width={800}
                 height={1008}
                 loading="lazy"
@@ -250,7 +282,7 @@ function Index() {
       </section>
 
       {/* Conceito */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <span className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">
@@ -322,7 +354,7 @@ function Index() {
                 <img
                   src={dest.image}
                   alt={dest.title}
-                  className="w-full aspect-[3/4] object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto object-contain opacity-60 group-hover:scale-105 transition-transform duration-700"
                   width={704}
                   height={944}
                   loading="lazy"
@@ -354,7 +386,7 @@ function Index() {
       </section>
 
       {/* Por que patrocinar */}
-      <section id="por-que" className="py-24 bg-zinc-950">
+      <section id="por-que" className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-brand-green font-bold uppercase tracking-[0.2em] text-xs">
@@ -489,7 +521,7 @@ function Index() {
       </section>
 
       {/* Ecossistema de Conteúdo */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-brand-green font-bold uppercase tracking-[0.2em] text-xs">
@@ -634,7 +666,7 @@ function Index() {
       </section>
 
       {/* Cotas de Patrocínio */}
-      <section id="cotas" className="py-24 bg-zinc-950">
+      <section id="cotas" className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-brand-green font-bold uppercase tracking-[0.2em] text-xs">
@@ -823,7 +855,7 @@ function Index() {
       </section>
 
       {/* Contrapartidas Personalizadas */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-brand-green font-bold uppercase tracking-[0.2em] text-xs">
@@ -913,7 +945,7 @@ function Index() {
       </section>
 
       {/* Segurança e Responsabilidade */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-brand-green font-bold uppercase tracking-[0.2em] text-xs">
@@ -1019,7 +1051,7 @@ function Index() {
       </section>
 
       {/* Plano de Expansão */}
-      <section className="py-24 bg-zinc-950">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-brand-gold font-bold uppercase tracking-[0.2em] text-xs">
@@ -1105,15 +1137,19 @@ function Index() {
                     WhatsApp
                   </span>
                   <span className="text-lg font-display tracking-tight">
-                    [TELEFONE]
+                    <a href="https://wa.me/5562982483760" target="_blank" rel="noreferrer">
+                      (62) 98248-3760
+                    </a>
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
                   <span className="text-xs font-medium uppercase tracking-widest text-brand-gold">
-                    E-mail
+                    Website
                   </span>
                   <span className="text-lg font-display tracking-tight">
-                    [E-MAIL]
+                    <a href="https://www.brasilutvtour.com.br" target="_blank" rel="noreferrer">
+                      www.brasilutvtour.com.br
+                    </a>
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
@@ -1121,19 +1157,27 @@ function Index() {
                     Instagram
                   </span>
                   <span className="text-lg font-display tracking-tight">
-                    @BRASILUTVTOUR
+                    <a href="https://www.instagram.com/brasilutvtour" target="_blank" rel="noreferrer">
+                      @brasilutvtour
+                    </a>
                   </span>
                 </div>
               </div>
               <div className="flex gap-4">
-                {["IG", "YT", "WA"].map((social) => (
+                {[
+                  { label: "IG", href: "https://www.instagram.com/brasilutvtour" },
+                  { label: "YT", href: "https://www.youtube.com/@brasilutvtour" },
+                  { label: "WA", href: "https://wa.me/5562982483760" },
+                ].map((social) => (
                   <a
-                    key={social}
-                    href="#"
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
                     className="size-10 rounded-full border border-white/10 grid place-items-center hover:bg-brand-gold hover:text-black transition-all"
-                    aria-label={social}
+                    aria-label={social.label}
                   >
-                    {social}
+                    {social.label}
                   </a>
                 ))}
               </div>

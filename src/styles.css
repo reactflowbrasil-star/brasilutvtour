@@ -63,8 +63,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Brasil UTV Tour brand tokens */
-  --color-brand-green: #009739;
-  --color-brand-gold: #FFDF00;
+  --color-brand-green: #fe9704;
+  --color-brand-gold: #fe9704;
   --color-brand-dark: #0A0A0A;
   --color-brand-gray: #1A1A1A;
 
@@ -122,5 +122,20 @@
     background-color: var(--color-brand-dark);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
